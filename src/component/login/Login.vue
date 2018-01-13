@@ -1,9 +1,8 @@
 <template>
     <div class="login">
-        <h1>后台管理</h1>
+        <h1 ref="wokaixin">后台管理</h1>
         <!-- model用来关联表单数据, rules用来指定校验规则 -->
-        <el-form label-position="left" label-width="80px" ref="ruleForm2" 
-        :model="formLabelAlign" :rules="rules">
+        <el-form label-position="left" label-width="80px" ref="ruleForm2" :model="formLabelAlign" :rules="rules">
             <!-- 如果要表单校验与重置功能, 必须加上prop属性 -->
             <el-form-item label="账号" prop="uname">
                 <el-input v-model="formLabelAlign.uname"></el-input>
@@ -13,7 +12,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm2')">立即创建</el-button>
-                <el-button >重置</el-button>
+                <el-button @click='resetForm("ruleForm2")'>重置</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -32,9 +31,9 @@
             }
             // 校验密码, 将来配置到下面的validator配置项
             function upwdFn(rule, value, callback) {
-                if(value == '') {
+                if (value == '') {
                     callback(new Error('密码不能为空'))
-                }else {
+                } else {
                     callback();
                 }
             }
@@ -47,10 +46,16 @@
                 // 表单校验规则
                 rules: {
                     uname: [
-                        { validator: unameFn, trigger: 'blur' }
+                        { validator: unameFn, trigger: 'blur' },
+                        { required: true, message: '请填写账号', trigger: 'blur' },
+                        { min: 5, max: 18, message: '账号在5~18位间', trigger: 'blur' }
                     ],
                     upwd: [
-                        { validator: upwdFn, trigger: 'blur' }
+                        { validator: upwdFn, trigger: 'blur' },
+                        // required: true代表这个选项必须要填写，message提示语
+                        { required: true, message: '请填写密码', trigger: 'blur' },
+                        // 三元表达式设定最少最大值
+                        { pattern: /^\w{6,18}$/, message: '密码在6~18位间', trigger: 'blur' },
                     ]
                 }
             }
@@ -60,21 +65,27 @@
             login() {
                 this.$http.post(this.$api.login, this.formLabelAlign).then(res => {
                     if (res.data.status == 0) {
+                         // 使用了路由插件后, 就会拥有该对象
                         this.$alert('登陆成功, 马上跳转到首页');
-                    } else {
+                        this.$router.push({name:'admin'});
+                    }else {
                         this.$alert(res.data.message);
                     }
-                })
+                });
             },
             // 表单提交
             submitForm(formName) {
-                this.$refs[formName].validate(vali => {
-                    if (vali) {
+                this.$refs[formName].validate(result => {
+                    if (result) {
                         this.login();
-                    } else {
+                    } 
+                    else {
                         this.$alert('哥们! 不带这么玩的');
                     }
                 });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
             }
         },
     }
@@ -92,6 +103,7 @@
         border: 1px solid #fff;
         border-radius: 6px;
     }
+
     h1 {
         position: absolute;
         top: -60px;
