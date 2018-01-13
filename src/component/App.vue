@@ -1,6 +1,6 @@
 <template>
     <div>
-        公共头部s
+        公共头部sss
         <router-view></router-view>
         <div class="block">
             <span class="demonstration">区分颜色</span>
