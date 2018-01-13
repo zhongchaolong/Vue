@@ -72,8 +72,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       // 注意不要弄错了 template：要处理的文件   filename：打包后新生产的名字
-      filename: 'template.html',
-      template: './src/index.html',
+      template: './src/index.html',// 配置要处理的html文件
+      filename: 'index.html',
       title: "hello vue"
     })
   ]
