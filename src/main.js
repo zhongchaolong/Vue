@@ -1,11 +1,14 @@
+//默认全局初始化样式
+import 'normalize.css';
+// 导入自己写的全局样式
+import './less/index.less';
+
 // 1.1 导入vue相关的第三方包 vue 路由 ellement-ui 以及ui样式
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
-//默认全局初始化样式
-import 'normalize.css';
+
 // 1.2 启动vue插件 和 element-ui插件
 Vue.use(VueRouter);
 Vue.use(ElementUI)
