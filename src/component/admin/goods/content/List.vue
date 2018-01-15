@@ -12,9 +12,8 @@
       <el-button size="mini" plain icon="el-icon-plus">新增</el-button>
       <el-button size="mini" plain icon="el-icon-check">全选</el-button>
       <el-button size="mini" plain icon="el-icon-delete">删除</el-button>
-      <el-input style="width: 200px; float: right;" size="mini"
-       placeholder="请输入内容" prefix-icon="el-icon-search"
-        v-model="gsListQuery.searchvalue" @blur="getGoodsList"></el-input>
+      <el-input style="width: 200px; float: right;" size="mini" placeholder="请输入内容" prefix-icon="el-icon-search"          v-model="gsListQuery.searchvalue"
+        @blur="getGoodsList"></el-input>
     </div>
     <!-- 表格 -->
     <!-- el-table组件必须设置data属性, 传入一个数组, 然后表格会自动遍历这个数组进行渲染 -->
@@ -77,8 +76,20 @@
             <router-link :to="{ name: 'goodsCtEdit', params: { id: scope.row.id } }">修改</router-link>
           </template>
         </el-table-column>
-
-    </el-table>
+      </el-table>
+        <!-- 分页 -->
+        <!-- @size-change用来监听每页数量变化时的事件 -->
+        <!-- @current-change用来监听页码变化时的事件 -->
+        <!-- current-page用来指定当前页, page-sizes用来指定每页数量的下拉菜单 -->
+        <!-- page-size用来指定当前每页的数量, total用来指定总数量 -->
+        <el-pagination id="el-pagination"
+            @size-change="sizeChange" @current-change="currentChange"
+            :current-page="gsListQuery.pageIndex"
+            :page-sizes="page.pageSizes"
+            :page-size="gsListQuery.pageSize"
+            :total="page.total"
+            layout="total, sizes, prev, pager, next, jumper">
+        </el-pagination>
   </div>
 </template>
 
@@ -95,7 +106,7 @@
             is_slide: 1,
             categoryname: "男装",
             img_url: "/imgs/SJ4EgwosX0wTqvyAvhtFGT1w.jpg",
-            imgurl: "http://139.199.192.48:6060/imgs/SJ4EgwosX0wTqvyAvhtFGT1w.jpg",
+            imgurl: "http://192.168.75.28/imgs/SJ4EgwosX0wTqvyAvhtFGT1w.jpg",
             goods_no: "NZ0000000002",
             stock_quantity: 200,
             market_price: 1000,
@@ -109,7 +120,7 @@
             is_slide: 1,
             categoryname: "男装",
             img_url: "/imgs/SJ4EgwosX0wTqvyAvhtFGT1w.jpg",
-            imgurl: "http://139.199.192.48:6060/imgs/SJ4EgwosX0wTqvyAvhtFGT1w.jpg",
+            imgurl: "http://192.168.75.28:6060/imgs/SJ4EgwosX0wTqvyAvhtFGT1w.jpg",
             goods_no: "NZ0000000002",
             stock_quantity: 200,
             market_price: 1000,
@@ -120,24 +131,41 @@
           pageIndex: 1,
           pageSize: 10,
           searchvalue: ''
+        
+        },
+     // 分页相关数据
+          page: {
+            pageSizes: [10, 20, 30, 40],
+            total: 100 
+          }
         }
-      }
-    },
-
+     },
     methods: {
       // 获取商品列表数据
       getGoodsList() {
         // get方法的第二个参数是一个配置对象, 该对象里面可以设置headers请求头, 还可以设置params查询字符串
         this.$http.get(this.$api.gsList, { params: this.gsListQuery}).then(res => {
           this.tableData3 = res.data.message;
+          // 接口还会返回如下三个数据, 将来分页的时候要用
+          this.page.total = res.data.totalcount;
         });
-      }
-    },
+      },
     // 修改商品状态
     modifyStatus(id, type, newStatus) {
-      this.tableData3.filter(goods =>
-        goods.id==id)[0][type]=newStatus?1:0;
+      
+      this.tableData3.filter(goods => goods.id == id)[0][type] = newStatus? 1: 0;
     },
+    // 每页数量变化时, 拿到新值, 修改数据, 然后重新请求接口渲染列表
+    sizeChange(pageSize) {
+       this.gsListQuery.pageSize = pageSize;
+       this.getGoodsList();
+    },
+    // 每页数量变化时, 拿到新值, 修改数据, 需要重新请求接口渲染列表
+    currentChange(pageIndex) {
+      this.gsListQuery.pageIndex = pageIndex;
+      this.getGoodsList();
+    },
+  },
     // 组件初始化完毕后, 立马调用接口进行渲染
     created() {
       this.getGoodsList();
@@ -145,7 +173,7 @@
   }
 </script>
 
-<style scoped >
+<style scoped lang="less">
   a{
     text-decoration:none;
   }
@@ -159,6 +187,10 @@
   .buttons {
     margin-bottom: 10px;
   }
+  #el-pagination{
+    float:right;
+    margin-right: 20px;
+  }
   /* 属性选择器, 给class前缀为el-icon的标签设置颜色 */
   [class^=el-icon]{
     color:  rgba(0, 0, 0, 0.3);
@@ -166,4 +198,5 @@
       color: #000;
     }
   }
+  
 </style>
