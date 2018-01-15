@@ -15,9 +15,7 @@
                   <el-menu-item v-for="subitem in item.children" :key="subitem.title" :index="subitem.title">
                         <router-link :to="subitem.path">{{ subitem.title }}</router-link>
                   </el-menu-item>
-
             </el-submenu>
-
       </el-menu>
 </template>
 
