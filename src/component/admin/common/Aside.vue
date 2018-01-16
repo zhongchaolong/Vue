@@ -1,9 +1,8 @@
 <template>
-      <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-
+      <el-menu default-active="2" class="el-menu-vertical-demo"
+       @open="handleOpen" @close="handleClose" style="height: 100%;">
             <!-- 一个菜单项, 记得配置index属性, 不配置会有问题 -->
             <el-submenu v-for="item in menu" :key="item.title" :index="item.title">
-
                   <!-- 标题内容 -->
                   <template slot="title">
                         <i class="el-icon-location"></i>

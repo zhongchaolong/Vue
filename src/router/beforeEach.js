@@ -8,8 +8,10 @@ import api from '../js/api-config.js';
 // 3. 如果用户要去后台管理相关页
 // 3.1 那么判断用户是不是登陆过了, 不是的话给他跳转到登陆页
 export default function(to, from, next) {
+
   // 获取将要去的页面的名字，保存好，后面要用
   var toPageName = to.name;
+  
   // 请求接口判断用户有没有登陆
   axios.get(api.isLogin).then(res => {
     // 默认是未登录的状态
