@@ -22,31 +22,54 @@
       export default {
             data() {
                   return {
-                        menu: [
-                              {
-                                    title: '资源下载',
-                                    children: [
-                                          { title: '内容管理', path: '/a' },
-                                          { title: '类别管理', path: '/b' },
-                                          { title: '评论管理', path: '/c' },
-                                    ]
+                        menu: [{
+                              title: '资源下载',
+                              children: [{
+                                    title: '内容管理',
+                                    path: '/a'
                               },
                               {
-                                    title: '购物商城',
-                                    children: [
-                                          { title: '内容管理', path: '/a' },
-                                          { title: '类别管理', path: '/b' },
-                                          { title: '评论管理', path: '/c' },
-                                    ]
+                                    title: '类别管理',
+                                    path: '/b'
                               },
                               {
-                                    title: '订单管理',
-                                    children: [
-                                          { title: '内容管理', path: '/a' },
-                                          { title: '类别管理', path: '/b' },
-                                          { title: '评论管理', path: '/c' },
-                                    ]
+                                    title: '评论管理',
+                                    path: '/c'
                               },
+                              ]
+                        },
+                        {
+                              title: '购物商城',
+                              children: [{
+                                    title: '内容管理',
+                                    path: '/a'
+                              },
+                              {
+                                    title: '类别管理',
+                                    path: '/b'
+                              },
+                              {
+                                    title: '评论管理',
+                                    path: '/c'
+                              },
+                              ]
+                        },
+                        {
+                              title: '订单管理',
+                              children: [{
+                                    title: '内容管理',
+                                    path: '/a'
+                              },
+                              {
+                                    title: '类别管理',
+                                    path: '/b'
+                              },
+                              {
+                                    title: '评论管理',
+                                    path: '/c'
+                              },
+                              ]
+                        },
                         ]
                   }
             },

@@ -9,7 +9,7 @@
                   <el-dropdown-item>修改</el-dropdown-item>
                   <!-- 默认情况下, 监听组件的事件都是监听组件自己emit发射的事件 -->
                   <!-- 如果要监听浏览器原生事件, 添加一个native修饰符即可 -->
-                  <el-dropdown-item @click.native="logout">注释</el-dropdown-item>
+                  <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
             </el-dropdown-menu>
       </el-dropdown>
 </template>
@@ -25,7 +25,9 @@
                   logout() {
                         this.$http.get(this.$api.logout).then(res => {
                               if (res.data.status == 0) {
-                                    this.$router.push({ name: 'login' });
+                                    this.$router.push({
+                                          name: 'login'
+                                    });
                               } else {
                                     this.$alert(res.data.message);
                               }

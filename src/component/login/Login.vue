@@ -31,9 +31,9 @@
             }
             // 校验密码, 将来配置到下面的validator配置项
             function upwdFn(rule, value, callback) {
-                if (value == '') {
+                if(value == '') {
                     callback(new Error('密码不能为空'))
-                } else {
+                }else {
                     callback();
                 }
             }
@@ -66,8 +66,12 @@
                 this.$http.post(this.$api.login, this.formLabelAlign).then(res => {
                     if (res.data.status == 0) {
                          // 使用了路由插件后, 就会拥有该对象
-                        this.$alert('登陆成功, 马上跳转到首页');
-                        this.$router.push({name:'admin'});
+                        // this.$alert('登陆成功, 马上跳转到首页');
+                        // $router代表路由实例, $route代表url对象,
+                        // 我们这里通过$route对象拿取url中的信息, $router对象进行路由跳转等操作
+                        let nextPage = this.$route.query.nextPage;
+                        // 判断是否有进入过，有的话直接进入，没有的去验证页面
+                        this.$router.push({ path: nextPage? nextPage: '/admin' });
                     }else {
                         this.$alert(res.data.message);
                     }
@@ -76,6 +80,7 @@
             // 表单提交
             submitForm(formName) {
                 this.$refs[formName].validate(result => {
+                    // 全部都通过校验才登陆
                     if (result) {
                         this.login();
                     } 
@@ -103,7 +108,6 @@
         border: 1px solid #fff;
         border-radius: 6px;
     }
-
     h1 {
         position: absolute;
         top: -60px;
